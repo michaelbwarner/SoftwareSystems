@@ -10,7 +10,6 @@ left in the deck.
 
 /*
 getVal takes the user input and extracts its integer value.
-
 full_face: user input string
 */
 
