@@ -6,6 +6,9 @@ This modified version requires pandas, numpy, and matplotlib.
 If you use apt:
 
 sudo apt-get install python-pandas python-numpy python-matplotlib
+
+Modified version by mike warner 2/4/2014
+now a PID controller
 """
 
 import numpy
