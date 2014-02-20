@@ -18,24 +18,41 @@ License: Creative Commons Attribution-ShareAlike 3.0
 
 char *center(char *s, int n, char fillchar)
 {
-    // FILL THIS IN
-    //    return NULL;
+
+	char *final = malloc(n+1);
+	double d = ((double)n - (double)strlen(s))/2;
+	int index = (int)d;
+	//`printf("%i\n",index);
+	int i;
+	for (i=0; i<n; i++) {
+		if (i < index || i > (index + strlen(s) - 1)) {
+			final[i] = fillchar;
+			//printf("%i\n",i);
+		}
+		else {
+			final[i] = s[i-index];
+		}
+	}
+	final[n+1] = '\0';
+	//printf("%i\n",strlen(final));
+	return final;
+
 }
 
 
 int main (int argc, char *argv[])
 {
-    char *s = center("Software", 30, '.');
+    char *s = center("allen", 10, '.');
     printf("%s\n", s);
 
-    char *s2 = center("Systems", 31, '-');
-    printf("%s\n", s2);
+    //char *s2 = center("Systems", 31, '-');
+    //printf("%s\n", s2);
 
-    char *s3 = center("Spring 2014", 32, '*');
-    printf("%s\n", s3);
+    //char *s3 = center("Spring 2014", 32, '*');
+    //printf("%s\n", s3);
 
-    char *s4 = center("Exam 1", 33, '^');
-    printf("%s\n", s4);
+   // char *s4 = center("Exam 1", 33, '^');
+    //printf("%s\n", s4);
 
     return 0;
 }
