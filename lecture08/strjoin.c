@@ -22,8 +22,27 @@ char *tracks[] = {
 */
 char *strjoin(char *array[], int n)
 {
-    // TODO: fill this in
-    return NULL;
+	int totalLen = 0;
+	int b;
+	for(b = 0; b < n; b++) {
+		totalLen += strlen(array[b]);
+	}
+	printf("total num of characters in strings: %i\n", totalLen);
+	char *final = malloc(totalLen * sizeof(char));
+	
+	int i; int lastPos = 0;
+	for(b = 0; b < n; b++) {
+		for (i = 0; i < strlen(array[b]); i++) {
+			if (array[b][i] != ' ') {
+				//printf("%c\n", array[b][i]);
+				final[lastPos] = array[b][i];
+				lastPos++; 
+			}
+		}
+	}
+	final[lastPos] = '\0';
+
+    return final;
 }
 
 
