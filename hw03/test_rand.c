@@ -48,6 +48,19 @@ main (int argc, char *argv[])
   int iters = 1000000000;
   int seed = 17;
 
+  for (i = 0; i < 10; i++) {
+	printf("%f\n", my_random_double());
+
+  }
+
+  srandom (seed);
+  t0 = get_seconds();
+  for (i=0; i<iters; i++) {
+    f = my_random_double();
+  }
+  t1 = get_seconds();
+  printf ("my_random_double \t %f ms\n", t1 - t0);
+ 
   srandom (seed);
   t0 = get_seconds();
   for (i=0; i<iters; i++) {
