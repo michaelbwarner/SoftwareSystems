@@ -91,7 +91,7 @@ double my_random_double()
  {
   int long x;
   int long mant;
-  int long exp = 126;
+  int long exp = 252;
   int long mask = 1;
 
   union {
