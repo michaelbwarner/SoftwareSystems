@@ -266,7 +266,10 @@ typedef struct map {
 /* Makes a Map with n lists. */
 Map *make_map(int n)
 {
-    return NULL;
+	Map *map = (Map *) malloc(sizeof(Map));
+	map->n = n;
+	map->lists = malloc(n*sizeof(Node));
+	return map;
 }
 
 
@@ -287,15 +290,31 @@ void print_map(Map *map)
 /* Adds a key-value pair to a map. */
 void map_add(Map *map, Hashable *key, Value *value)
 {
-    // FIX ME!
+	Node *newNode = (Node *)malloc(sizeof(Node));
+	newNode->key = key;
+	newNode->value = value;
+	newNode->next = NULL;
+
+	int index = key->hash(key->key) % map->n;
+
+	if (map->lists[index] == NULL) {
+		map->lists[index] = newNode;
+	}
+	else {
+		Node *cur = map->lists[index];
+		while (cur->next != NULL) {
+			cur = cur->next;
+		}
+		cur->next = newNode;
+	}
 }
 
 
 /* Looks up a key and returns the corresponding value, or NULL. */
 Value *map_lookup(Map *map, Hashable *key)
 {
-    // FIX ME!
-    return NULL;
+	int index = key->hash(key->key) % map->n;
+	return list_lookup(map->lists[index], key);
 }
 
 
@@ -333,7 +352,7 @@ int main ()
     value = list_lookup (list, hashable3);
     print_lookup(value);
 	
-	/*
+	
     // make a map
     Map *map = make_map(10);
     map_add(map, hashable1, value1);
@@ -341,7 +360,7 @@ int main ()
 
     printf ("Map\n");
     print_map(map);
-
+	
     // run some test lookups
     value = map_lookup(map, hashable1);
     print_lookup(value);
@@ -351,6 +370,6 @@ int main ()
 
     value = map_lookup(map, hashable3);
     print_lookup(value);
-	*/
+	
     return 0;
 }
