@@ -1,0 +1,53 @@
+#include <glib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main (int argc, char** argv) {
+	
+	FILE *fp;
+	fp = fopen("test", "r");
+	char *word;
+	int i = 0;
+	int max = 100;
+	word = (char*)malloc(max);
+	int c;
+	int* val;
+	GHashTable* hash;
+	hash =  g_hash_table_new(g_str_hash, g_str_equal);
+	
+	if (fp == NULL) { printf("file not read\n"); return 0; }
+	
+	while((c = fgetc(fp)) != EOF) {
+		if (c == ' ') {
+			word[i] = '\0';
+			i = 0;
+			printf("word: %s\n", word);
+			//*val = (int)g_hash_table_lookup(hash, "this");
+			//printf("%i\n", *val);
+
+			if (val == NULL) {
+				printf("value is NULL\n");
+				*val = 1;
+				printf("are you fucking kidding?\n");
+				printf("%i\n", *val);
+				g_hash_table_insert(hash, word, val);
+				printf("%s %i\n", word, (int)g_hash_table_lookup(hash, word));
+			}
+			else {
+				printf("value is stored\n");
+
+			}
+		}
+		else {
+			//printf("character: %c \n", (char)c);
+			word[i] = (char)c;
+			i++;
+			if (i >= max) {
+				printf("word is too long\n");
+			}
+		}
+	}
+
+	fclose(fp);
+	return 0;
+}
