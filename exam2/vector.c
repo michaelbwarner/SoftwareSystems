@@ -5,8 +5,8 @@ License: Creative Commons Attribution-ShareAlike 3.0
 
 */
 
-
-#include "stdio.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 typedef struct {
     double *data;
@@ -15,17 +15,18 @@ typedef struct {
 
 // Makes a new vector and sets all elements to zero.
 Vector *make_vector(int len) {
-    Vector *vector = malloc(sizeof(Vector));
+	Vector *vector;
+	vector  =  malloc(sizeof(Vector));
 
-    vector->data = calloc(len * sizeof(double *));
-    vector->len = len;
-    return vector;
+	vector->data = calloc(len, sizeof(double *));
+	vector->len = len;
+	return vector;
 }
 
 // Frees the vector structure and its data array.
 void free_vector(Vector *vector) {
-    free(vector);
-    free(vector->data);
+	free(vector->data);
+	free(vector);
 }
 
 // Prints the elements of a vector.
@@ -61,35 +62,38 @@ void consecutive_vector(Vector *vector) {
 void add_vector(Vector *A, Vector *B, Vector *C) {
     int i;
 
-    for (i=0; i<A->len; i++) {
+    for (i=0; i < A->len; i++) {
 	C->data[i] = A->data[i] + B->data[i];
     }
 }
 
 // Adds two vectors elementwise and returns a new vector.
-double *add_vector_func(Vector *A, Vector *B) {
-    Vector *C = make_vector(A->len);
-    add_vector(A, B, C);
+Vector *add_vector_func(Vector *A, Vector *B) {
+	Vector *C;
+	C = make_vector(A->len);
+	add_vector(A, B, C);
+	return C;
 }
 
-int main {
-    Vector *A = make_vector(4);
-    consecutive_vector(A);
-    printf("A\n");
-    print_vector(A);
+int main (int argc, const char* argv[]) {
+	Vector *A = make_vector(4);
+	consecutive_vector(A);
+	printf("A\n");
+	print_vector(A);
 
-    Vector *B = make_vector(4);
-    increment_vector(B, 1);
-    printf("B\n");
-    print_vector(B);
+	Vector *B = make_vector(4);
+	increment_vector(B, 1);
+	printf("B\n");
+	print_vector(B);
+	
+	Vector *C;
+	C = add_vector_func(A, B);
+	printf("A + B\n");
+	print_vector(C);
 
-    Vector *C = add_vector_func(A, B);
-    printf("A + B\n");
-    print_vector(C);
+	free_vector(A);
+	free_vector(B);
+	free_vector(C);
 
-    free_vector(A);
-    free_vector(B);
-    free_vector(C);
-
-    return 0
+    return 0;
 }
