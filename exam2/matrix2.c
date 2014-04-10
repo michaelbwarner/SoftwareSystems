@@ -154,7 +154,7 @@ double *row_sum(Matrix *A) {
     }
     return res;
 }
-
+// adds up all the cols of A and return a heap-allocated array of doubles
 double *col_sum(Matrix *A) {
 
 	double total;
@@ -171,21 +171,26 @@ double *col_sum(Matrix *A) {
 	}
 	return res;	
 }
-
+//adds up the diagonal across the matrix starting at the upper-left-hand corner going across
+//returns double total if valid square matrix, -1.0 otherwise
 double diagonal_TL(Matrix *A) {
+	
+	if (A->rows != A->cols) return -1.0;
 
 	double total = 0.0;
 	int i;	
 
 	for (i=0; i<A->rows; i++) {
-		//printf("%lf\n", A->data[i][i]);
 		total += A->data[i][i];
 	}
 	return total;
 }
-
+//adds up the diagonal across the matrix starting at the upper-right-hand corner going back across
+//returns double total if valid square matrix, -1.0 otherwise
 double diagonal_TR(Matrix *A) {
 	
+	if (A->rows != A->cols) return -1.0;
+
 	double total = 0.0;
 	int i;
 		
@@ -195,20 +200,9 @@ double diagonal_TR(Matrix *A) {
 	return total;
 }
 
-/* 
-   http://en.wikipedia.org/wiki/Magic_square
 
-   A magic square is an arrangement of numbers (usually integers) in a
-   square grid, where the numbers in each row, and in each column, and
-   the numbers in the forward and backward main diagonals, all add up
-   to the same number. 
-
-   Write a function called is_magic_square() that takes a matrix and 
-   returns an int, 1 if the matrix is a magic square, and 0 otherwise.
-
-   Feel free to use row_sum().
+/*checks whether square array is magic or not. return 0 if not, 1 if true
 */
-
 int is_magic_square(Matrix *A) {
 
 	if (A->rows != A->cols) return 0;
