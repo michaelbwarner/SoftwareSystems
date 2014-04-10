@@ -155,6 +155,46 @@ double *row_sum(Matrix *A) {
     return res;
 }
 
+double *col_sum(Matrix *A) {
+
+	double total;
+	int i, j;
+	
+	double *res = malloc(A->cols * sizeof(double));
+	
+	for (i=0; i<A->cols; i++) {
+		total = 0.0;
+		for (j = 0; j < A->rows; j++) {
+			total += A->data[j][i];
+		}
+		res[i] = total;
+	}
+	return res;	
+}
+
+double diagonal_TL(Matrix *A) {
+
+	double total = 0.0;
+	int i;	
+
+	for (i=0; i<A->rows; i++) {
+		//printf("%lf\n", A->data[i][i]);
+		total += A->data[i][i];
+	}
+	return total;
+}
+
+double diagonal_TR(Matrix *A) {
+	
+	double total = 0.0;
+	int i;
+		
+	for (i=A->rows-1;i >= 0; i--) {
+		total += A->data[i][i];
+	}
+	return total;
+}
+
 /* 
    http://en.wikipedia.org/wiki/Magic_square
 
@@ -169,10 +209,34 @@ double *row_sum(Matrix *A) {
    Feel free to use row_sum().
 */
 
+int is_magic_square(Matrix *A) {
+
+	if (A->rows != A->cols) return 0;
+	int i;
+	double *rows, *cols; 
+	rows = row_sum(A);
+	cols = col_sum(A);
+
+	double val = rows[0];
+
+	for (i=0; i < A->rows; i++) {
+		if (rows[i] != val) return 0;
+	}
+
+	for (i=0; i < A->cols; i++) {
+		if (cols[i] != val) return 0;
+	}
+
+	if ((diagonal_TL(A) != val) || (diagonal_TL(A) != val)) return 0;
+
+	return 1;
+
+}
+
 
 int main() {
     int i;
-
+/*
     Matrix *A = make_matrix(3, 4);
     consecutive_matrix(A);
     printf("A\n");
@@ -202,6 +266,34 @@ int main() {
 	printf("row %d\t%lf\n", i, sums[i]);
     }
     // should print 6, 22, 38
+
+	Matrix *S = make_matrix(4,4);
+	increment_matrix(S, 1);
+	printf("S\n");
+	print_matrix(S);
+
+	double diag = diagonal_TL(S);
+
+	printf("%lf\n", diag);
+
+	double diag2 = diagonal_TR(S);
+	printf("%lf\n", diag2);
+*/
+	Matrix *M = make_matrix(3,3);
+	
+	M->data[0][0] = 2;
+	M->data[0][1] = 7;
+	M->data[0][2] = 6;
+
+	M->data[1][0] = 9;
+	M->data[1][1] = 5;
+	M->data[1][2] = 1;
+
+	M->data[2][0] = 4;
+	M->data[2][1] = 3;
+	M->data[2][2] = 8;
+
+	printf("magic? %i\n", is_magic_square(M));
 
     return 0;
 }
